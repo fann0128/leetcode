@@ -6,35 +6,36 @@ class ListNode:
         self.next = next
 
 def removeElements(head: Optional[ListNode], val: int) -> Optional[ListNode]:
-    cur, prev = head, None
-    while cur :
-        if cur.val == val:
-            if prev is not None:
-                prev.next = cur.next
-                cur = cur.next
-            else :
-                cur = cur.next
-                head = cur
+    dummy_head = ListNode(-1)
+    dummy_head.next = head
+    prev = dummy_head
+    while prev.next :
+        if prev.next.val == val:
+            prev.next = prev.next.next
         else :
-            prev = cur
-            cur = cur.next
+            prev = prev.next
+    return dummy_head.next
+
+def constructLinkedList(vals) -> Optional[ListNode]:
+    if len(vals) == 0:
+        return ListNode()
+
+    head = cur = ListNode(vals[0])
+    for v in vals[1::]:
+        tmp = ListNode(v)
+        cur.next = tmp
+        cur = cur.next
+
     return head
 
 def printLinkedList(node: Optional[ListNode]) -> None:
     if node :
         print(node.val)
-
         if node.next:
             printLinkedList(node.next)
-    
 
 def main():
-    node5 = ListNode(5)
-    node4 = ListNode(4, node5)
-    node3 = ListNode(3, node4)
-    node2 = ListNode(2, node3)
-    head = ListNode(1, node2)
-
+    head = constructLinkedList([1,2,3,4,5])
     print("before")
     printLinkedList(head)
     removeElements(head, 3)
